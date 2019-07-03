@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>UserItem.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+UserItem.kt</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">com.example.denys.mysocialtalk 
+<a name="l2"><span class="ln">2    </span></a> 
+<a name="l3"><span class="ln">3    </span></a>import com.squareup.picasso.Picasso 
+<a name="l4"><span class="ln">4    </span></a>import com.xwray.groupie.Item 
+<a name="l5"><span class="ln">5    </span></a>import com.xwray.groupie.ViewHolder 
+<a name="l6"><span class="ln">6    </span></a>import kotlinx.android.synthetic.main.user_row_new_message.view.* 
+<a name="l7"><span class="ln">7    </span></a> 
+<a name="l8"><span class="ln">8    </span></a></span><span class="s0">class </span><span class="s1">UserItem(</span><span class="s0">val </span><span class="s1">user: User): Item&lt;ViewHolder&gt;(){ 
+<a name="l9"><span class="ln">9    </span></a>    override </span><span class="s0">fun </span><span class="s1">bind(viewHolder: ViewHolder</span><span class="s0">, </span><span class="s1">position: Int) { 
+<a name="l10"><span class="ln">10   </span></a>        viewHolder.itemView.username_textview_new_message.text = user.username 
+<a name="l11"><span class="ln">11   </span></a> 
+<a name="l12"><span class="ln">12   </span></a>        Picasso.get().load(user.profileImageUrl).into(viewHolder.itemView.imageview_new_message) 
+<a name="l13"><span class="ln">13   </span></a>    } 
+<a name="l14"><span class="ln">14   </span></a> 
+<a name="l15"><span class="ln">15   </span></a>    override </span><span class="s0">fun </span><span class="s1">getLayout(): Int { 
+<a name="l16"><span class="ln">16   </span></a>        </span><span class="s0">return </span><span class="s1">R.layout.user_row_new_message 
+<a name="l17"><span class="ln">17   </span></a>    } 
+<a name="l18"><span class="ln">18   </span></a>}</span></pre>
+</body>
+</html>

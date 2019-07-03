@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "21198417019",
+    "firebase_url": "https://mysocialtalk-fc0a2.firebaseio.com",
+    "project_id": "mysocialtalk-fc0a2",
+    "storage_bucket": "mysocialtalk-fc0a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21198417019:android:f2bb0d890958c33a",
+        "android_client_info": {
+          "package_name": "com.example.denys.mysocialtalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21198417019-vo1r5hfu2bk5kvf5m07h2gsfei74fu5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.denys.mysocialtalk",
+            "certificate_hash": "5f5425ebacb27044d3cee4c7edc6dd9ae2fb55f6"
+          }
+        },
+        {
+          "client_id": "21198417019-n2irup6fkt3obc9lgr0pujk1tdvjutaq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjhcfXIFDtWjt_4GAed4q2gWBrL6-Zlew"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21198417019-n2irup6fkt3obc9lgr0pujk1tdvjutaq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

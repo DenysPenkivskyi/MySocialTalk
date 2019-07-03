@@ -1,0 +1,172 @@
+<html>
+<head>
+<title>RegisterActivity.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(106,135,89); }
+.s3 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+RegisterActivity.kt</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">com.example.denys.mysocialtalk 
+<a name="l2"><span class="ln">2    </span></a> 
+<a name="l3"><span class="ln">3    </span></a>import android.app.Activity 
+<a name="l4"><span class="ln">4    </span></a>import android.content.Intent 
+<a name="l5"><span class="ln">5    </span></a> 
+<a name="l6"><span class="ln">6    </span></a>import android.net.Uri 
+<a name="l7"><span class="ln">7    </span></a>import android.support.v7.app.AppCompatActivity 
+<a name="l8"><span class="ln">8    </span></a>import android.os.Bundle 
+<a name="l9"><span class="ln">9    </span></a>import android.provider.MediaStore 
+<a name="l10"><span class="ln">10   </span></a>import com.google.firebase.auth.FirebaseAuth 
+<a name="l11"><span class="ln">11   </span></a>import com.google.firebase.database.FirebaseDatabase 
+<a name="l12"><span class="ln">12   </span></a>import com.google.firebase.storage.FirebaseStorage 
+<a name="l13"><span class="ln">13   </span></a>import android.util.Log 
+<a name="l14"><span class="ln">14   </span></a>import android.widget.Toast 
+<a name="l15"><span class="ln">15   </span></a>import kotlinx.android.synthetic.main.activity_register.* 
+<a name="l16"><span class="ln">16   </span></a>import java.util.* 
+<a name="l17"><span class="ln">17   </span></a> 
+<a name="l18"><span class="ln">18   </span></a></span><span class="s0">class </span><span class="s1">RegisterActivity : AppCompatActivity() { 
+<a name="l19"><span class="ln">19   </span></a> 
+<a name="l20"><span class="ln">20   </span></a>    companion </span><span class="s0">object </span><span class="s1">{ 
+<a name="l21"><span class="ln">21   </span></a>        </span><span class="s0">val </span><span class="s1">TAG = </span><span class="s2">&quot;RegisterActivity&quot;</span><span class="s1"> 
+<a name="l22"><span class="ln">22   </span></a>    } 
+<a name="l23"><span class="ln">23   </span></a> 
+<a name="l24"><span class="ln">24   </span></a>    private </span><span class="s0">var </span><span class="s1">selectedPhotoUri: Uri? = </span><span class="s0">null</span><span class="s1"> 
+<a name="l25"><span class="ln">25   </span></a> 
+<a name="l26"><span class="ln">26   </span></a>    override </span><span class="s0">fun </span><span class="s1">onCreate(savedInstanceState: Bundle?) { 
+<a name="l27"><span class="ln">27   </span></a>        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState) 
+<a name="l28"><span class="ln">28   </span></a>        setContentView(R.layout.activity_register) 
+<a name="l29"><span class="ln">29   </span></a> 
+<a name="l30"><span class="ln">30   </span></a>        already_have_account_textView_register.setOnClickListener{ 
+<a name="l31"><span class="ln">31   </span></a> 
+<a name="l32"><span class="ln">32   </span></a>            Log.d(TAG</span><span class="s0">,</span><span class="s2">&quot;Try to show log activity&quot;</span><span class="s1">) 
+<a name="l33"><span class="ln">33   </span></a> 
+<a name="l34"><span class="ln">34   </span></a>            </span><span class="s0">val </span><span class="s1">intent = Intent(</span><span class="s0">this, </span><span class="s1">LoginActivity::</span><span class="s0">class</span><span class="s1">.java) 
+<a name="l35"><span class="ln">35   </span></a>            startActivity(intent) 
+<a name="l36"><span class="ln">36   </span></a>        } 
+<a name="l37"><span class="ln">37   </span></a> 
+<a name="l38"><span class="ln">38   </span></a>        selectphoto_button_register.setOnClickListener{ 
+<a name="l39"><span class="ln">39   </span></a> 
+<a name="l40"><span class="ln">40   </span></a>            Log.d(TAG</span><span class="s0">, </span><span class="s2">&quot;Try to show photo&quot;</span><span class="s1">) 
+<a name="l41"><span class="ln">41   </span></a> 
+<a name="l42"><span class="ln">42   </span></a>            </span><span class="s0">val </span><span class="s1">intent = Intent(Intent.ACTION_PICK) 
+<a name="l43"><span class="ln">43   </span></a>            intent.type = </span><span class="s2">&quot;image/*&quot;</span><span class="s1"> 
+<a name="l44"><span class="ln">44   </span></a>            startActivityForResult(intent</span><span class="s0">, </span><span class="s3">0</span><span class="s1">) 
+<a name="l45"><span class="ln">45   </span></a>        } 
+<a name="l46"><span class="ln">46   </span></a> 
+<a name="l47"><span class="ln">47   </span></a>        register_button_register.setOnClickListener{ 
+<a name="l48"><span class="ln">48   </span></a>            performRegister() 
+<a name="l49"><span class="ln">49   </span></a>        } 
+<a name="l50"><span class="ln">50   </span></a>    } 
+<a name="l51"><span class="ln">51   </span></a> 
+<a name="l52"><span class="ln">52   </span></a>    override </span><span class="s0">fun </span><span class="s1">onActivityResult(requestCode: Int</span><span class="s0">, </span><span class="s1">resultCode: Int</span><span class="s0">, </span><span class="s1">data: Intent?) { 
+<a name="l53"><span class="ln">53   </span></a>        </span><span class="s0">super</span><span class="s1">.onActivityResult(requestCode</span><span class="s0">, </span><span class="s1">resultCode</span><span class="s0">, </span><span class="s1">data) 
+<a name="l54"><span class="ln">54   </span></a> 
+<a name="l55"><span class="ln">55   </span></a>        </span><span class="s0">if</span><span class="s1">(requestCode == </span><span class="s3">0 </span><span class="s1">&amp;&amp; resultCode == Activity.RESULT_OK &amp;&amp; data != </span><span class="s0">null</span><span class="s1">){ 
+<a name="l56"><span class="ln">56   </span></a> 
+<a name="l57"><span class="ln">57   </span></a>            Log.d(TAG</span><span class="s0">, </span><span class="s2">&quot;Photo was selected&quot;</span><span class="s1">) 
+<a name="l58"><span class="ln">58   </span></a> 
+<a name="l59"><span class="ln">59   </span></a>            selectedPhotoUri = data.data 
+<a name="l60"><span class="ln">60   </span></a>            </span><span class="s0">val </span><span class="s1">bitmap = MediaStore.Images.Media.getBitmap(contentResolver</span><span class="s0">, </span><span class="s1">selectedPhotoUri) 
+<a name="l61"><span class="ln">61   </span></a> 
+<a name="l62"><span class="ln">62   </span></a>            Log.d(TAG</span><span class="s0">, </span><span class="s2">&quot;Photo was selected </span><span class="s0">${</span><span class="s1">selectedPhotoUri</span><span class="s0">}</span><span class="s2">&quot;</span><span class="s1">) 
+<a name="l63"><span class="ln">63   </span></a> 
+<a name="l64"><span class="ln">64   </span></a>            selectphoto_imageview_register.setImageBitmap(bitmap) 
+<a name="l65"><span class="ln">65   </span></a>            selectphoto_button_register.alpha = </span><span class="s3">0f</span><span class="s1"> 
+<a name="l66"><span class="ln">66   </span></a> 
+<a name="l67"><span class="ln">67   </span></a>        } 
+<a name="l68"><span class="ln">68   </span></a>    } 
+<a name="l69"><span class="ln">69   </span></a> 
+<a name="l70"><span class="ln">70   </span></a>    private </span><span class="s0">fun </span><span class="s1">performRegister(){ 
+<a name="l71"><span class="ln">71   </span></a> 
+<a name="l72"><span class="ln">72   </span></a>        </span><span class="s0">val </span><span class="s1">email = email_editText_register.text.toString() 
+<a name="l73"><span class="ln">73   </span></a>        </span><span class="s0">val </span><span class="s1">password = password_editText_register.text.toString() 
+<a name="l74"><span class="ln">74   </span></a>        </span><span class="s0">val </span><span class="s1">username = username_editText_register.text.toString() 
+<a name="l75"><span class="ln">75   </span></a> 
+<a name="l76"><span class="ln">76   </span></a>        </span><span class="s0">if </span><span class="s1">(username.isEmpty() || username.length &lt; </span><span class="s3">4</span><span class="s1">) { 
+<a name="l77"><span class="ln">77   </span></a>            Toast.makeText(</span><span class="s0">this, </span><span class="s2">&quot;Please enter the correct username&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show() 
+<a name="l78"><span class="ln">78   </span></a>            </span><span class="s0">return</span><span class="s1"> 
+<a name="l79"><span class="ln">79   </span></a>        } 
+<a name="l80"><span class="ln">80   </span></a> 
+<a name="l81"><span class="ln">81   </span></a>        </span><span class="s0">if </span><span class="s1">(email.isEmpty()) { 
+<a name="l82"><span class="ln">82   </span></a>            Toast.makeText(</span><span class="s0">this, </span><span class="s2">&quot;Please enter the email&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show() 
+<a name="l83"><span class="ln">83   </span></a>            </span><span class="s0">return</span><span class="s1"> 
+<a name="l84"><span class="ln">84   </span></a>        } 
+<a name="l85"><span class="ln">85   </span></a> 
+<a name="l86"><span class="ln">86   </span></a>        </span><span class="s0">if </span><span class="s1">(password.isEmpty() || password.length &lt; </span><span class="s3">6</span><span class="s1">) { 
+<a name="l87"><span class="ln">87   </span></a>            Toast.makeText(</span><span class="s0">this, </span><span class="s2">&quot;Please enter the correct password&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show() 
+<a name="l88"><span class="ln">88   </span></a>            </span><span class="s0">return</span><span class="s1"> 
+<a name="l89"><span class="ln">89   </span></a>        } 
+<a name="l90"><span class="ln">90   </span></a> 
+<a name="l91"><span class="ln">91   </span></a>        Log.d(TAG</span><span class="s0">, </span><span class="s2">&quot;Email is  </span><span class="s0">$</span><span class="s1">email</span><span class="s2">&quot;</span><span class="s1">) 
+<a name="l92"><span class="ln">92   </span></a>        Log.d(TAG</span><span class="s0">, </span><span class="s2">&quot;Password: </span><span class="s0">$</span><span class="s1">password</span><span class="s2">&quot;</span><span class="s1">) 
+<a name="l93"><span class="ln">93   </span></a> 
+<a name="l94"><span class="ln">94   </span></a>        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email</span><span class="s0">, </span><span class="s1">password) 
+<a name="l95"><span class="ln">95   </span></a>                .addOnCompleteListener { 
+<a name="l96"><span class="ln">96   </span></a>                    </span><span class="s0">if </span><span class="s1">(!it.isSuccessful) </span><span class="s0">return</span><span class="s1">@addOnCompleteListener 
+<a name="l97"><span class="ln">97   </span></a>                    Log.d(TAG</span><span class="s0">, </span><span class="s2">&quot;Successfully create user with uid: </span><span class="s0">${</span><span class="s1">it.result.user.uid</span><span class="s0">}</span><span class="s2">&quot;</span><span class="s1">) 
+<a name="l98"><span class="ln">98   </span></a>                    uploadImageToFirebaseStorage() 
+<a name="l99"><span class="ln">99   </span></a>                } 
+<a name="l100"><span class="ln">100  </span></a>                .addOnFailureListener{ 
+<a name="l101"><span class="ln">101  </span></a>                    Log.d(TAG</span><span class="s0">, </span><span class="s2">&quot;Failed to create user </span><span class="s0">${</span><span class="s1">it.message</span><span class="s0">}</span><span class="s2">&quot;</span><span class="s1">) 
+<a name="l102"><span class="ln">102  </span></a>                    Toast.makeText(</span><span class="s0">this, </span><span class="s2">&quot;Failed to create user&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show() 
+<a name="l103"><span class="ln">103  </span></a>                } 
+<a name="l104"><span class="ln">104  </span></a>    } 
+<a name="l105"><span class="ln">105  </span></a> 
+<a name="l106"><span class="ln">106  </span></a>    private </span><span class="s0">fun </span><span class="s1">uploadImageToFirebaseStorage(){ 
+<a name="l107"><span class="ln">107  </span></a> 
+<a name="l108"><span class="ln">108  </span></a>        </span><span class="s0">if </span><span class="s1">(selectedPhotoUri == </span><span class="s0">null</span><span class="s1">) { 
+<a name="l109"><span class="ln">109  </span></a>            Toast.makeText(</span><span class="s0">this, </span><span class="s2">&quot;Please, choose some picture&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show() 
+<a name="l110"><span class="ln">110  </span></a>            </span><span class="s0">return</span><span class="s1"> 
+<a name="l111"><span class="ln">111  </span></a>        } 
+<a name="l112"><span class="ln">112  </span></a> 
+<a name="l113"><span class="ln">113  </span></a>        </span><span class="s0">val </span><span class="s1">picture_name = UUID.randomUUID().toString() 
+<a name="l114"><span class="ln">114  </span></a>        </span><span class="s0">val </span><span class="s1">reference = FirebaseStorage.getInstance().getReference(</span><span class="s2">&quot;/images/</span><span class="s0">$</span><span class="s1">picture_name</span><span class="s2">&quot;</span><span class="s1">) 
+<a name="l115"><span class="ln">115  </span></a> 
+<a name="l116"><span class="ln">116  </span></a>        reference.putFile(selectedPhotoUri!!) 
+<a name="l117"><span class="ln">117  </span></a>                .addOnSuccessListener { 
+<a name="l118"><span class="ln">118  </span></a>                    Log.d(TAG</span><span class="s0">, </span><span class="s2">&quot;Successfully upload image </span><span class="s0">${</span><span class="s1">it.metadata?.path</span><span class="s0">}</span><span class="s2">&quot;</span><span class="s1">) 
+<a name="l119"><span class="ln">119  </span></a>                    reference.downloadUrl.addOnSuccessListener { 
+<a name="l120"><span class="ln">120  </span></a>                        Log.d(TAG</span><span class="s0">, </span><span class="s2">&quot;File Location </span><span class="s0">$</span><span class="s1">it</span><span class="s2">&quot;</span><span class="s1">) 
+<a name="l121"><span class="ln">121  </span></a>                        saveUserInFirebaseDatabase(it.toString()) 
+<a name="l122"><span class="ln">122  </span></a>                    } 
+<a name="l123"><span class="ln">123  </span></a>                } 
+<a name="l124"><span class="ln">124  </span></a>                .addOnFailureListener{ 
+<a name="l125"><span class="ln">125  </span></a>                    Toast.makeText(</span><span class="s0">this, </span><span class="s2">&quot;Failed to create new user&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show() 
+<a name="l126"><span class="ln">126  </span></a>                } 
+<a name="l127"><span class="ln">127  </span></a>    } 
+<a name="l128"><span class="ln">128  </span></a> 
+<a name="l129"><span class="ln">129  </span></a>    private </span><span class="s0">fun </span><span class="s1">saveUserInFirebaseDatabase(profileImageUrl: String){ 
+<a name="l130"><span class="ln">130  </span></a> 
+<a name="l131"><span class="ln">131  </span></a>        </span><span class="s0">val </span><span class="s1">uid = FirebaseAuth.getInstance().uid ?: </span><span class="s2">&quot;&quot;</span><span class="s1"> 
+<a name="l132"><span class="ln">132  </span></a>        </span><span class="s0">val </span><span class="s1">reference = FirebaseDatabase.getInstance().getReference(</span><span class="s2">&quot;/users/</span><span class="s0">$</span><span class="s1">uid</span><span class="s2">&quot;</span><span class="s1">) 
+<a name="l133"><span class="ln">133  </span></a>        </span><span class="s0">val </span><span class="s1">user = User(uid</span><span class="s0">, </span><span class="s1">username_editText_register.text.toString()</span><span class="s0">, </span><span class="s1">profileImageUrl) 
+<a name="l134"><span class="ln">134  </span></a> 
+<a name="l135"><span class="ln">135  </span></a>        reference.setValue(user) 
+<a name="l136"><span class="ln">136  </span></a>                .addOnSuccessListener { 
+<a name="l137"><span class="ln">137  </span></a>                    Log.d(TAG</span><span class="s0">, </span><span class="s2">&quot;Finally save the user to FD&quot;</span><span class="s1">) 
+<a name="l138"><span class="ln">138  </span></a> 
+<a name="l139"><span class="ln">139  </span></a>                    Toast.makeText(</span><span class="s0">this, </span><span class="s2">&quot;Success!&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show() 
+<a name="l140"><span class="ln">140  </span></a>                    </span><span class="s0">val </span><span class="s1">intent = Intent(</span><span class="s0">this, </span><span class="s1">LatestMessagesActivity::</span><span class="s0">class</span><span class="s1">.java) 
+<a name="l141"><span class="ln">141  </span></a>                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK) 
+<a name="l142"><span class="ln">142  </span></a>                    startActivity(intent) 
+<a name="l143"><span class="ln">143  </span></a>                } 
+<a name="l144"><span class="ln">144  </span></a>                .addOnFailureListener{ 
+<a name="l145"><span class="ln">145  </span></a>                    Toast.makeText(</span><span class="s0">this, </span><span class="s2">&quot;Failed to save user&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show() 
+<a name="l146"><span class="ln">146  </span></a>                } 
+<a name="l147"><span class="ln">147  </span></a>    } 
+<a name="l148"><span class="ln">148  </span></a>} 
+<a name="l149"><span class="ln">149  </span></a> 
+<a name="l150"><span class="ln">150  </span></a> 
+<a name="l151"><span class="ln">151  </span></a></span></pre>
+</body>
+</html>
